@@ -1,0 +1,19 @@
+{
+  "name": "yemenifree/wordpress-validation",
+  "description": "use laravel validation via wordpress",
+  "require": {
+    "josephlavin/tap": "^1.0",
+    "rakit/validation": "^0.13.1"
+  },
+  "authors": [
+    {
+      "name": "Salah Alkhwlani",
+      "email": "yemenifree@yandex.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Yemenifree\\ordPressValidation\\": "src/"
+    }
+  }
+}
