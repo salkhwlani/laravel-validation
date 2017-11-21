@@ -13,7 +13,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Yemenifree\\ordPressValidation\\": "src/"
+      "Yemenifree\\WordPressValidation\\": "src/"
     }
   }
 }
