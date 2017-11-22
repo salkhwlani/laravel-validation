@@ -14,39 +14,63 @@ use Rakit\Validation\Validator as BaseValidator;
 class Validator extends BaseValidator
 {
     /** @var Validation */
-    protected $validate;
-    protected $messagesDefault = [
-        'required' => 'الحقل :attribute مطلوب',
-        'numeric' => 'الحقل :attribute يجب ان يكون رقم صحيح',
-        'alpha' => 'الحقل :attribute يجب ان يكون حروف فقط',
-        'date' => 'الحقل :attribute يجب ان يكون تاريخ صحيحا',
-        'after' => ':attribute يجب ان يكون بعد تاريخ :time.',
-    ];
+    protected $validation;
+    /** @var array */
+    protected $messagesDefault = [];
+    /** @var \Closure */
+    protected $failsCallback = false;
 
-    public function __construct(array $messages = [])
+    public function validate(array $inputs, array $rules, array $messages = array())
     {
-        $messages = \array_merge($messages, $this->messagesDefault);
-        parent::__construct($messages);
+        return tap(parent::validate($inputs, $rules, $messages), function () {
+            if ($this->getFailsCallback() instanceof \Closure && $this->validation->fails()) {
+                ($this->getFailsCallback())($this->validation->errors()->firstOfAll());
+            }
+        });
+    }
+
+    /**
+     * @return \Closure
+     */
+    public function getFailsCallback(): \Closure
+    {
+        return $this->failsCallback;
+    }
+
+    /**
+     * @param \Closure $failsCallback
+     *
+     * @return Validator
+     */
+    public function setFailsCallback(\Closure $failsCallback): self
+    {
+        $this->failsCallback = $failsCallback;
+
+        return $this;
     }
 
     public function make(
         array $inputs,
         array $rules,
         array $messages = [],
-        $aliases = [],
-        $failsCallback = null
-    ) {
-        return tap(parent::make($inputs, $rules, $messages), function ($validation) use ($aliases, $failsCallback) {
-            $this->validate = $validation;
-            $this->validate->setAliases($aliases);
+        array $aliases = [],
+        \Closure $failsCallback = null
+    )
+    {
+        $this->failsCallback = $failsCallback;
+        $this->validation = parent::make($inputs, $rules, $messages);
+        $this->validation->setAliases($aliases);
 
-            if ($failsCallback) {
-                $this->validate->validate();
-                if ($this->validate->fails()) {
-                    /** @var \Closure $failsCallback */
-                    $failsCallback($this->validate->errors()->firstOfAll());
-                }
-            }
-        });
+        return $this->validation;
+    }
+
+    /**
+     * get current validation.
+     *
+     * @return Validation
+     */
+    public function getValidate(): Validation
+    {
+        return $this->validation;
     }
 }
