@@ -2,7 +2,6 @@
   "name": "yemenifree/wordpress-validation",
   "description": "use laravel validation via wordpress",
   "require": {
-    "josephlavin/tap": "^1.0",
     "rakit/validation": "^0.13.1"
   },
   "authors": [
@@ -14,6 +13,9 @@
   "autoload": {
     "psr-4": {
       "Yemenifree\\WordPressValidation\\": "src/"
-    }
+    },
+    "files": [
+      "src/helpers.php"
+    ]
   }
 }
