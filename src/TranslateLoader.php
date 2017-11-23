@@ -14,6 +14,7 @@ class TranslateLoader
     public function __construct()
     {
         $this->defaultPath = __DIR__ . '/lang';
+        $this->path = __DIR__ . '/lang';
     }
 
     /**

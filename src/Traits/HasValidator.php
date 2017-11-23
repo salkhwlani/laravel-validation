@@ -30,6 +30,9 @@ trait HasValidator
      */
     public function valid(array $data, array $rules, array $messages = [], array $aliases = [])
     {
+        // load translate.
+        $this->loadTranslate();
+
         $this->getValidator()->make($data, $rules, $messages, $this->getAliases());
 
         if (count($aliases) > 0) {
@@ -47,41 +50,23 @@ trait HasValidator
     }
 
     /**
+     *  load translate.
+     */
+    public function loadTranslate(): self
+    {
+        $this->translateLoader = new TranslateLoader();
+
+        $this->getValidator()->setMessages($this->translateLoader->load($this->getValidatorLocal()));
+
+        return $this;
+    }
+
+    /**
      * @return Validator
      */
     public function getValidator()
     {
         return $this->validator ?: $this->validator = new validator();
-    }
-
-    /**
-     * @return array
-     */
-    public function getAliases(): array
-    {
-        return $this->aliases;
-    }
-
-    /**
-     * @param array $aliases
-     *
-     * @return self
-     */
-    public function setAliases($aliases): self
-    {
-        $this->aliases = $aliases;
-
-        return $this;
-    }
-
-    /**
-     *  load translate.
-     */
-    public function loadTranslate(): self
-    {
-        $this->getValidator()->setMessages($this->translateLoader->load($this->getValidatorLocal()));
-
-        return $this;
     }
 
     /**
@@ -102,6 +87,26 @@ trait HasValidator
     public function setValidatorLocal($local): self
     {
         $this->validatorLocal = $local;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAliases(): array
+    {
+        return $this->aliases;
+    }
+
+    /**
+     * @param array $aliases
+     *
+     * @return self
+     */
+    public function setAliases($aliases): self
+    {
+        $this->aliases = $aliases;
+
         return $this;
     }
 }
