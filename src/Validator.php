@@ -20,13 +20,30 @@ class Validator extends BaseValidator
     /** @var \Closure */
     protected $failsCallback = false;
 
-    public function validate(array $inputs, array $rules, array $messages = array())
+    /**
+     * check if data is valid.
+     *
+     * @return bool
+     */
+    public function isValid()
     {
-        return tap(parent::validate($inputs, $rules, $messages), function () {
-            if ($this->getFailsCallback() instanceof \Closure && $this->validation->fails()) {
-                ($this->getFailsCallback())($this->validation->errors()->firstOfAll());
-            }
-        });
+        $this->getValidate()->validate();
+
+        if ($this->getFailsCallback() instanceof \Closure && $this->validation->fails()) {
+            ($this->getFailsCallback())($this->validation->errors()->firstOfAll());
+        }
+
+        return !$this->getValidate()->fails();
+    }
+
+    /**
+     * get current validation.
+     *
+     * @return Validation
+     */
+    public function getValidate(): Validation
+    {
+        return $this->validation;
     }
 
     /**
@@ -61,16 +78,6 @@ class Validator extends BaseValidator
         $this->validation = parent::make($inputs, $rules, $messages);
         $this->validation->setAliases($aliases);
 
-        return $this->validation;
-    }
-
-    /**
-     * get current validation.
-     *
-     * @return Validation
-     */
-    public function getValidate(): Validation
-    {
         return $this->validation;
     }
 }

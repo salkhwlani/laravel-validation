@@ -30,6 +30,8 @@ trait HasValidator
      */
     public function valid(array $data, array $rules, array $messages = [], array $aliases = [])
     {
+        $this->getValidator()->make($data, $rules, $messages, $this->getAliases());
+
         if (count($aliases) > 0) {
             $this->setAliases($aliases);
         }
@@ -37,11 +39,11 @@ trait HasValidator
         // if has custom invalid response.
         if (method_exists($this, 'InValidCallback')) {
             $this->getValidator()->setFailsCallback(function ($error) {
-                return $this->getInValidResponse($error);
+                return $this->InValidCallback($error);
             });
         }
 
-        return $this->getValidator()->make($data, $rules, $messages, $this->getAliases());
+        return $this->getValidator()->isValid();
     }
 
     /**
@@ -50,16 +52,6 @@ trait HasValidator
     public function getValidator()
     {
         return $this->validator ?: $this->validator = new validator();
-    }
-
-    /**
-     * @param array $error
-     *
-     * @return mixed
-     */
-    public function getInValidResponse($error)
-    {
-        return $this->ajax->alert($error[0])->jsonResponse(422);
     }
 
     /**
