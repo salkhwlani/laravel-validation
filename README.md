@@ -171,6 +171,24 @@ You can use custom translate file for validation errors.
 
 > translate files must return array of messages. see `src/lang/ar.php` for example.
 
+To access to all method of `Validator` use `getValidator()` method.
+
+
+```php
+use Yemenifree\Validation\Traits\HasValidator;
+
+class SomeController
+{
+    use HasValidator;
+
+    public function __construct()
+    {
+        // add custom rule.
+        $this->getValidator()->addValidator('simple', new SimpleRule());
+    }
+}
+```
+
 > For more information about rules check [rakit/validation](https://github.com/rakit/validation)
 
 ## Change log

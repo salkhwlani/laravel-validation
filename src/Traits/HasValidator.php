@@ -48,6 +48,7 @@ trait HasValidator
             $this->setAliases($aliases);
         }
         $this->validation->setAliases($this->getAliases());
+        $this->validation->validate();
 
         // if has custom invalid callback.
         if (\method_exists($this, 'InValidCallback') && $this->getValidation()->fails()) {
@@ -141,10 +142,12 @@ trait HasValidator
     /**
      * Get validation errors.
      *
-     * @return \Rakit\Validation\ErrorBag
+     * @param bool $firstOfAll
+     *
+     * @return array|\Rakit\Validation\ErrorBag
      */
-    protected function getValidErrors()
+    protected function getValidErrors($firstOfAll = false)
     {
-        return $this->getValidation()->errors();
+        return $firstOfAll ? $this->getValidation()->errors()->firstOfAll() : $this->getValidation()->errors();
     }
 }
