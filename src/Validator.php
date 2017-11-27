@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2017 Salah Alkhwlani <yemenifree@yandex.com>
  *
@@ -25,7 +26,7 @@ class Validator extends BaseValidator
      *
      * @return bool
      */
-    public function isValid()
+    public function isValid(): bool
     {
         $this->getValidate()->validate();
 
@@ -72,8 +73,7 @@ class Validator extends BaseValidator
         array $messages = [],
         array $aliases = [],
         \Closure $failsCallback = null
-    )
-    {
+    ): Validation {
         $this->failsCallback = $failsCallback;
         $this->validation = parent::make($inputs, $rules, $messages);
         $this->validation->setAliases($aliases);

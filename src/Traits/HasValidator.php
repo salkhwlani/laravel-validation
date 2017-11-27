@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * Copyright (c) 2017 Salah Alkhwlani <yemenifree@yandex.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Yemenifree\WordPressValidation\Traits;
 
 use Yemenifree\WordPressValidation\TranslateLoader;
@@ -23,7 +30,6 @@ trait HasValidator
      * @param array $data
      * @param array $rules
      * @param array $messages
-     *
      * @param array $aliases
      *
      * @return mixed|\Rakit\Validation\Validation
@@ -35,12 +41,12 @@ trait HasValidator
 
         $this->getValidator()->make($data, $rules, $messages, $this->getAliases());
 
-        if (count($aliases) > 0) {
+        if (\count($aliases) > 0) {
             $this->setAliases($aliases);
         }
 
-        // if has custom invalid response.
-        if (method_exists($this, 'InValidCallback')) {
+        // if has custom invalid callback.
+        if (\method_exists($this, 'InValidCallback')) {
             $this->getValidator()->setFailsCallback(function ($error) {
                 return $this->InValidCallback($error);
             });
@@ -64,9 +70,9 @@ trait HasValidator
     /**
      * @return Validator
      */
-    public function getValidator()
+    public function getValidator() : Validator
     {
-        return $this->validator ?: $this->validator = new validator();
+        return $this->validator ?: $this->validator = new Validator();
     }
 
     /**
@@ -87,6 +93,7 @@ trait HasValidator
     public function setValidatorLocal($local): self
     {
         $this->validatorLocal = $local;
+
         return $this;
     }
 

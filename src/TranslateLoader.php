@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * Copyright (c) 2017 Salah Alkhwlani <yemenifree@yandex.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Yemenifree\WordPressValidation;
 
 class TranslateLoader
@@ -22,21 +29,21 @@ class TranslateLoader
      *
      * @param $locale
      *
-     * @return array|mixed
+     * @return array
      */
-    public function load($locale)
+    public function load($locale): array
     {
         // if file not exists
-        if (!file_exists($this->getFilePath($locale))) {
+        if (!\file_exists($this->getFilePath($locale))) {
             // if local support build in get translate from package.
             if ($this->isSupportLocal($locale)) {
-                return include($this->getFilePath($locale, true));
+                return include $this->getFilePath($locale, true);
             }
 
             return [];
         }
 
-        return include($this->getFilePath($locale));
+        return include $this->getFilePath($locale);
     }
 
     /**
@@ -45,7 +52,7 @@ class TranslateLoader
      *
      * @return string
      */
-    protected function getFilePath($locale, $default = false)
+    protected function getFilePath($locale, $default = false): string
     {
         return $this->getPath($default) . '/' . $locale . '.php';
     }
@@ -82,8 +89,15 @@ class TranslateLoader
         return $this->defaultPath;
     }
 
+    /**
+     * Check if local support build in with package.
+     *
+     * @param $locale
+     *
+     * @return bool
+     */
     private function isSupportLocal($locale): bool
     {
-        return in_array($locale, $this->supportLang, true);
+        return \in_array($locale, $this->supportLang, true);
     }
 }
