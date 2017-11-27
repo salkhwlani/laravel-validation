@@ -9,8 +9,9 @@
 
 namespace Yemenifree\Validation\Traits;
 
+use Rakit\Validation\Validation;
+use Rakit\Validation\Validator;
 use Yemenifree\Validation\TranslateLoader;
-use Yemenifree\Validation\Validator;
 
 trait HasValidator
 {
@@ -23,6 +24,9 @@ trait HasValidator
     protected $validator;
     /** @var TranslateLoader */
     protected $translateLoader;
+
+    /** @var Validation */
+    protected $validation;
 
     /**
      * valid data.
@@ -39,20 +43,18 @@ trait HasValidator
         // load translate.
         $this->loadTranslate();
 
-        $this->getValidator()->make($data, $rules, $messages, $this->getAliases());
-
+        $this->validation = $this->getValidator()->make($data, $rules, $messages);
         if (\count($aliases) > 0) {
             $this->setAliases($aliases);
         }
+        $this->validation->setAliases($this->getAliases());
 
         // if has custom invalid callback.
-        if (\method_exists($this, 'InValidCallback')) {
-            $this->getValidator()->setFailsCallback(function ($errors) {
-                return $this->InValidCallback($errors);
-            });
+        if (\method_exists($this, 'InValidCallback') && $this->getValidation()->fails()) {
+            return $this->InValidCallback($this->getValidation()->errors()->firstOfAll());
         }
 
-        return $this->getValidator()->isValid();
+        return !$this->getValidation()->fails();
     }
 
     /**
@@ -129,12 +131,20 @@ trait HasValidator
     }
 
     /**
+     * @return Validation
+     */
+    protected function getValidation(): Validation
+    {
+        return $this->validation;
+    }
+
+    /**
      * Get validation errors.
      *
-     * @return array
+     * @return \Rakit\Validation\ErrorBag
      */
     protected function getValidErrors()
     {
-        return $this->getValidator()->errors();
+        return $this->getValidation()->errors();
     }
 }

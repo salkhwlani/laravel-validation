@@ -116,6 +116,8 @@ class SomeController
     public function InValidCallback(array $errors)
     {
         // do whatevet you want with errors.
+        
+        return false;
     }
 }
 ```
