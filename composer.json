@@ -12,7 +12,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Yemenifree\\WordPressValidation\\": "src/"
+      "Yemenifree\\Validation\\": "src/"
     },
     "files": [
       "src/helpers.php"

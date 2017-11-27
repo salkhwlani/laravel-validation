@@ -7,10 +7,10 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Yemenifree\WordPressValidation\Traits;
+namespace Yemenifree\Validation\Traits;
 
-use Yemenifree\WordPressValidation\TranslateLoader;
-use Yemenifree\WordPressValidation\Validator;
+use Yemenifree\Validation\TranslateLoader;
+use Yemenifree\Validation\Validator;
 
 trait HasValidator
 {
@@ -34,7 +34,7 @@ trait HasValidator
      *
      * @return mixed|\Rakit\Validation\Validation
      */
-    public function valid(array $data, array $rules, array $messages = [], array $aliases = [])
+    protected function valid(array $data, array $rules, array $messages = [], array $aliases = [])
     {
         // load translate.
         $this->loadTranslate();
@@ -47,8 +47,8 @@ trait HasValidator
 
         // if has custom invalid callback.
         if (\method_exists($this, 'InValidCallback')) {
-            $this->getValidator()->setFailsCallback(function ($error) {
-                return $this->InValidCallback($error);
+            $this->getValidator()->setFailsCallback(function ($errors) {
+                return $this->InValidCallback($errors);
             });
         }
 
@@ -58,11 +58,9 @@ trait HasValidator
     /**
      *  load translate.
      */
-    public function loadTranslate(): self
+    protected function loadTranslate(): self
     {
-        $this->translateLoader = new TranslateLoader();
-
-        $this->getValidator()->setMessages($this->translateLoader->load($this->getValidatorLocal()));
+        $this->getValidator()->setMessages($this->getTranslateLoader()->load($this->getValidatorLocal()));
 
         return $this;
     }
@@ -70,9 +68,17 @@ trait HasValidator
     /**
      * @return Validator
      */
-    public function getValidator() : Validator
+    protected function getValidator(): Validator
     {
         return $this->validator ?: $this->validator = new Validator();
+    }
+
+    /**
+     * @return TranslateLoader
+     */
+    public function getTranslateLoader(): TranslateLoader
+    {
+        return $this->translateLoader ?: $this->translateLoader = new TranslateLoader();
     }
 
     /**
@@ -87,12 +93,17 @@ trait HasValidator
      * set local of validation errors message.
      *
      * @param $local
+     * @param null $path
      *
-     * @return $this
+     * @return HasValidator
      */
-    public function setValidatorLocal($local): self
+    public function setValidatorLocal($local, $path = null): self
     {
         $this->validatorLocal = $local;
+
+        if (!empty($path)) {
+            $this->getTranslateLoader()->setPath($path);
+        }
 
         return $this;
     }
@@ -115,5 +126,15 @@ trait HasValidator
         $this->aliases = $aliases;
 
         return $this;
+    }
+
+    /**
+     * Get validation errors.
+     *
+     * @return array
+     */
+    protected function getValidErrors()
+    {
+        return $this->getValidator()->errors();
     }
 }

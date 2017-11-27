@@ -7,7 +7,7 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Yemenifree\WordPressValidation;
+namespace Yemenifree\Validation;
 
 use Rakit\Validation\Validation;
 use Rakit\Validation\Validator as BaseValidator;
@@ -79,5 +79,20 @@ class Validator extends BaseValidator
         $this->validation->setAliases($aliases);
 
         return $this->validation;
+    }
+
+    /**
+     * @param $method
+     * @param $arguments
+     *
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        if (!\method_exists($this, $method) && $this->getValidate()) {
+            return \call_user_func_array([$this->getValidate(), '__call'], [$method, $arguments]);
+        }
+
+        return parent::__call($method, $arguments);
     }
 }
