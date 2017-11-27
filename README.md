@@ -46,29 +46,29 @@ Then to valid some data you can pass array for data & rules and others options.
 For example
 
 ```php
-    /**
-     * Register User
-     *
-     * @return array
-     */
-    public function register()
-    {
-        $isValid = $this->valid(
-        [
-            'username' => 'salah',
+/**
+ * Register User
+ *
+ * @return array
+ */
+public function register()
+{
+    $isValid = $this->valid(
+    [
+        'username' => 'salah',
             'password' => 'test'
-        ]
-        , [
-            'username' => 'required',
-            'password' => 'required',
-        ]);
-        
-        if(!$isValid){
-            // data not valid.
-        }
-
-        // every thing right.
+    ]
+    , [
+        'username' => 'required',
+        'password' => 'required',
+    ]);
+    
+    if(!$isValid){
+        // data not valid.
     }
+
+    // every thing right.
+}
 ```
 
 If you have same response for all form in controller you can handler validation error once by create `InValidCallback` in class.
@@ -125,48 +125,48 @@ class SomeController
 You can use custom translate file for validation errors.
 
 ```php
-    use Yemenifree\Validation\Traits\HasValidator;
+use Yemenifree\Validation\Traits\HasValidator;
     
-    class SomeController
+class SomeController
+{
+    use HasValidator;
+    
+    public function __construct()
     {
-        use HasValidator;
-        
-        public function __construct()
-        {
-            $this->setValidatorLocal(
-            // file name wihout .php
-            'ar',
-            // path of translate
-            'translate/path'
-            );
-        }
-        
-        /**
-         * Register User
-         *
-         * @return array
-         */
-        public function register()
-        {
-            $isValid = $this->valid(
-            [
-                'username' => 'salah',
-                'password' => 'test'
-            ]
-            , [
-                'username' => 'required',
-                'password' => 'required',
-            ]);
-            
-            if(!$isValid)
-            {
-                // message errors.
-                $errors = $this->getValidErrors();
-            }
-            
-            // every thing right.
-        }
+        $this->setValidatorLocal(
+// file name wihout .php
+        'ar',
+        // path of translate
+        'translate/path'
+        );
     }
+        
+    /**
+     * Register User
+     *
+     * @return array
+     */
+    public function register()
+    {
+        $isValid = $this->valid(
+        [
+            'username' => 'salah',
+            'password' => 'test'
+        ]
+        , [
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+        
+         if(!$isValid)
+        {
+            // message errors.
+            $errors = $this->getValidErrors();
+        }
+        
+        // every thing right.
+    }
+}
 ```
 
 > translate files must return array of messages. see `src/lang/ar.php` for example.
