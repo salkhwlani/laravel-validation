@@ -4,7 +4,7 @@
 [![Build Status][ico-build]][link-build]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
-> A tiny package to use laravel validation outside laravel with support translate error message. this package is extend for `rakit/validation` so read it's document for more information.
+> A tiny package to use laravel validation outside laravel with support translate error message. this package is extend for [rakit/validation](https://github.com/rakit/validation) so read it's document for more information.
 
 ## Features
 
@@ -169,6 +169,8 @@ You can use custom translate file for validation errors.
 
 > translate files must return array of messages. see `src/lang/ar.php` for example.
 
+> For more information about rules check [rakit/validation](https://github.com/rakit/validation)
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
@@ -183,6 +185,7 @@ If you discover any security related issues, please email yemenifree@yandex.com 
 
 ## Credits
 
+- [Rakit/validation](https://github.com/rakit/validation)
 - [Salah Alkhwlani][link-author]
 - [All Contributors][link-contributors]
 
