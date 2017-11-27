@@ -1,6 +1,6 @@
 {
-  "name": "yemenifree/wordpress-validation",
-  "description": "use laravel validation via wordpress",
+  "name": "yemenifree/laravel-validation",
+  "description": "Use laravel validation standalone support translate.",
   "require": {
     "rakit/validation": "^0.13.1"
   },
