@@ -95,8 +95,8 @@ trait HasValidator
     /**
      * set local of validation errors message.
      *
-     * @param $local
-     * @param null $path
+     * @param string $local
+     * @param null|string $path
      *
      * @return HasValidator
      */
