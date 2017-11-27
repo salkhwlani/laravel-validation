@@ -214,12 +214,12 @@ If you discover any security related issues, please email yemenifree@yandex.com 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-code-quality]: https://scrutinizer-ci.com/g/yemenifree/wp-security/badges/quality-score.png?b=master
-[ico-build]: https://scrutinizer-ci.com/g/yemenifree/wp-security/badges/build.png?b=master
+[ico-code-quality]: https://scrutinizer-ci.com/g/yemenifree/laravel-validation/badges/quality-score.png?b=master
+[ico-build]: https://scrutinizer-ci.com/g/yemenifree/laravel-validation/badges/build.png?b=master
 
 [link-author]: https://github.com/yemenifree
 [link-contributors]: ../../contributors
-[link-code-quality]: https://scrutinizer-ci.com/g/yemenifree/wp-security/code-structure
-[link-build]: https://scrutinizer-ci.com/g/yemenifree/wp-security/build-status/maste
-[link-last-version]: https://api.github.com/repos/yemenifree/wp-security/zipball
+[link-code-quality]: https://scrutinizer-ci.com/g/yemenifree/laravel-validation/code-structure
+[link-build]: https://scrutinizer-ci.com/g/yemenifree/laravel-validation/build-status/maste
+[link-last-version]: https://api.github.com/repos/yemenifree/laravel-validation/zipball
 
